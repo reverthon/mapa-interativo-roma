@@ -157,11 +157,43 @@
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: var(--terracotta);
-    margin: 22px 0 10px;
+    margin: 22px 0 4px;
     display:flex;
     align-items:center;
     justify-content: space-between;
   }
+  .sort-toggle{
+    display:flex;
+    gap:6px;
+    margin-bottom: 12px;
+  }
+  .sort-btn{
+    flex:1;
+    font-family: 'Lora', serif;
+    font-size: 11.5px;
+    padding: 7px 8px;
+    background: var(--paper);
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+  }
+  .sort-btn.active{
+    background: var(--pine);
+    color: #fff;
+    border-color: var(--pine);
+  }
+  .day-header{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pine);
+    padding: 10px 8px 4px;
+    border-bottom: 1px solid var(--pine);
+    margin-top: 6px;
+  }
+  .day-header:first-child{ margin-top: 0; }
   .poi-list{
     list-style: none;
     margin: 0;
@@ -180,10 +212,11 @@
   .poi-item:hover{ background: rgba(168,69,47,0.06); }
   .poi-main{ display:flex; align-items:flex-start; gap:8px; }
   .poi-num{
-    font-size: 11px;
-    color: var(--ochre);
-    width: 16px;
+    font-size: 15px;
+    width: 20px;
     flex-shrink:0;
+    text-align:center;
+    margin-top: 1px;
   }
   .poi-name{ color: var(--ink); }
   .poi-day{
@@ -345,6 +378,10 @@
     </div>
 
     <div class="list-title">Pontos turísticos <span id="poiCount"></span></div>
+    <div class="sort-toggle">
+      <button class="sort-btn active" id="sortByDayBtn" type="button">📅 Por dia do roteiro</button>
+      <button class="sort-btn" id="sortByDistBtn" type="button">📍 Mais perto do hotel</button>
+    </div>
     <ul class="poi-list" id="poiList"></ul>
 
     <div class="footer-note">
@@ -497,27 +534,28 @@ function drawRoutes(){
   });
 }
 
+let sortMode = 'day'; // 'day' ou 'distance'
+
 function renderList(){
   poiListEl.innerHTML = '';
   let items = POIS.map((p, i) => {
     const dist = hotelLatLng ? haversine(hotelLatLng[0], hotelLatLng[1], p.lat, p.lng) : null;
     return {...p, idx:i, dist};
   });
-  if(hotelLatLng){
-    items.sort((a,b) => a.dist - b.dist);
-  }
-  items.forEach(p => {
+
+  function buildItem(p){
     const li = document.createElement('li');
     li.className = 'poi-item';
     const gmapsUrl = hotelLatLng
       ? `https://www.google.com/maps/dir/?api=1&origin=${hotelLatLng[0]},${hotelLatLng[1]}&destination=${p.lat},${p.lng}&travelmode=walking`
       : `https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`;
+    const icon = POI_ICONS[p.name] || "📍";
     li.innerHTML = `
       <div class="poi-main">
-        <span class="poi-num">${p.idx+1}</span>
+        <span class="poi-num">${icon}</span>
         <span>
           <span class="poi-name">${p.name}</span>
-          <span class="poi-day">${p.day}</span>
+          ${sortMode === 'distance' ? `<span class="poi-day">${p.day}</span>` : ''}
           <span class="poi-time">⏱ ${p.duration} · melhor: ${p.time}</span>
         </span>
       </div>
@@ -531,8 +569,25 @@ function renderList(){
       map.setView([p.lat, p.lng], 16);
       poiMarkers[p.idx].openPopup();
     });
-    poiListEl.appendChild(li);
-  });
+    return li;
+  }
+
+  if(sortMode === 'distance'){
+    if(hotelLatLng){
+      items.sort((a,b) => a.dist - b.dist);
+    }
+    items.forEach(p => poiListEl.appendChild(buildItem(p)));
+  } else {
+    // Agrupar por dia do roteiro, na ordem em que os dias acontecem
+    const dayOrder = [...new Set(items.map(p => p.day))].sort();
+    dayOrder.forEach(day => {
+      const header = document.createElement('div');
+      header.className = 'day-header';
+      header.textContent = day;
+      poiListEl.appendChild(header);
+      items.filter(p => p.day === day).forEach(p => poiListEl.appendChild(buildItem(p)));
+    });
+  }
 }
 
 function setHotel(lat, lng, label){
@@ -609,6 +664,22 @@ renderList();
 setHotel(DEFAULT_HOTEL.lat, DEFAULT_HOTEL.lng, DEFAULT_HOTEL.name);
 map.setView([DEFAULT_HOTEL.lat, DEFAULT_HOTEL.lng], 15);
 hotelMarker.closePopup();
+
+const sortByDayBtn = document.getElementById('sortByDayBtn');
+const sortByDistBtn = document.getElementById('sortByDistBtn');
+
+sortByDayBtn.addEventListener('click', () => {
+  sortMode = 'day';
+  sortByDayBtn.classList.add('active');
+  sortByDistBtn.classList.remove('active');
+  renderList();
+});
+sortByDistBtn.addEventListener('click', () => {
+  sortMode = 'distance';
+  sortByDistBtn.classList.add('active');
+  sortByDayBtn.classList.remove('active');
+  renderList();
+});
 
 // Botão de expandir mapa (tela cheia)
 const fullscreenBtn = document.getElementById('fullscreenBtn');
