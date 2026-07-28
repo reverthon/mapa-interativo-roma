@@ -248,7 +248,8 @@
     margin-top:2px;
   }
   #map{ width:100%; height:100%; }
-  .leaflet-popup-content{ font-family: 'Georgia', serif; font-size: 13px; }
+  .leaflet-popup-content{ font-family: 'Lora', 'Georgia', serif; font-size: 13px; margin: 12px 14px; }
+  .leaflet-popup-content b{ font-family: 'Playfair Display', Georgia, serif; font-size: 14.5px; }
   .poi-pin{
     display:flex;
     flex-direction:column;
@@ -399,30 +400,30 @@
 
 <script>
 const POIS = [
-  {name:"Coliseu", day:"Dia 03", lat:41.8902, lng:12.4922, duration:"2h–3h", time:"8h (abertura)"},
-  {name:"Fórum Romano", day:"Dia 03", lat:41.8925, lng:12.4853, duration:"1h30", time:"logo após o Coliseu"},
-  {name:"Museus Capitolinos", day:"Dia 03", lat:41.8931, lng:12.4828, duration:"1h30", time:"tarde"},
-  {name:"Museus Vaticanos", day:"Dia 04", lat:41.9065, lng:12.4536, duration:"3h", time:"8h (abertura)"},
-  {name:"Capela Sistina", day:"Dia 04", lat:41.9029, lng:12.4545, duration:"incluso no Vaticano", time:"final da visita aos museus"},
-  {name:"Basílica de São Pedro", day:"Dia 04", lat:41.9022, lng:12.4539, duration:"1h", time:"logo após o Vaticano, ~13h"},
-  {name:"Castel Sant'Angelo", day:"Dia 04", lat:41.9031, lng:12.4663, duration:"1h", time:"final de tarde (pôr do sol)"},
-  {name:"Pantheon", day:"Dia 05", lat:41.8986, lng:12.4769, duration:"30–45min", time:"9h, antes da lotação"},
-  {name:"Piazza Navona", day:"Dia 05", lat:41.8992, lng:12.4731, duration:"30min", time:"qualquer hora, linda à noite"},
-  {name:"Fontana di Trevi", day:"Dia 05", lat:41.9009, lng:12.4833, duration:"20–30min", time:"antes das 9h ou após 22h (sem taxa)"},
-  {name:"Piazza di Spagna", day:"Dia 05", lat:41.9058, lng:12.4823, duration:"30min", time:"final de tarde"},
-  {name:"Palazzo Doria Pamphilj", day:"Dia 05", lat:41.8974, lng:12.4813, duration:"1h", time:"manhã, menos fila"},
-  {name:"Largo di Torre Argentina", day:"Dia 05", lat:41.8955, lng:12.4767, duration:"15min", time:"de passagem"},
-  {name:"Altare della Patria (Vittoriano)", day:"Dia 03", lat:41.8955, lng:12.4823, duration:"45min", time:"fim de tarde, vista do pôr do sol"},
-  {name:"Mercati di Traiano", day:"Dia 03", lat:41.8958, lng:12.4855, duration:"1h", time:"manhã"},
-  {name:"Bocca della Verità", day:"Dia 08", lat:41.8888, lng:12.4813, duration:"15min", time:"de passagem, evite fila em pé"},
-  {name:"Galleria Borghese", day:"Dia 06", lat:41.9142, lng:12.4923, duration:"2h", time:"reserve o 1º horário (9h) — entrada marcada obrigatória"},
-  {name:"Piazza del Popolo", day:"Dia 06", lat:41.9109, lng:12.4763, duration:"30min", time:"fim de tarde"},
-  {name:"Museo Nazionale Romano (Palazzo Massimo)", day:"Dia 06", lat:41.9012, lng:12.5006, duration:"1h30", time:"manhã"},
-  {name:"Basílica de Santa Maria Maggiore", day:"Dia 06", lat:41.8977, lng:12.4996, duration:"45min", time:"manhã"},
-  {name:"Trastevere (Santa Maria)", day:"Dia 08", lat:41.8898, lng:12.4694, duration:"2h+ (passeio)", time:"final de tarde / noite"},
-  {name:"Campo de' Fiori", day:"Dia 08", lat:41.8955, lng:12.4723, duration:"30min", time:"manhã (mercado) ou noite (bares)"},
-  {name:"Circo Massimo", day:"Dia 08", lat:41.8859, lng:12.4855, duration:"20min", time:"de passagem"},
-  {name:"Santa Croce in Gerusalemme", day:"Dia 08", lat:41.8869, lng:12.5164, duration:"30min", time:"manhã"},
+  {name:"Coliseu", day:"Dia 03", lat:41.8902, lng:12.4922, duration:"2h–3h", time:"8h (abertura)", desc:"O maior anfiteatro já construído, do ano 72 d.C. Palco de lutas de gladiadores e espetáculos com até 70 mil espectadores. O símbolo mais famoso de Roma."},
+  {name:"Fórum Romano", day:"Dia 03", lat:41.8925, lng:12.4853, duration:"1h30", time:"logo após o Coliseu", desc:"O centro político, religioso e comercial da Roma Antiga. Ruínas de templos, basílicas e praças por onde passaram imperadores e senadores."},
+  {name:"Museus Capitolinos", day:"Dia 03", lat:41.8931, lng:12.4828, duration:"1h30", time:"tarde", desc:"Considerado o primeiro museu público do mundo (1471). Reúne esculturas romanas originais, incluindo a famosa estátua da Loba Capitolina com Rômulo e Remo."},
+  {name:"Museus Vaticanos", day:"Dia 04", lat:41.9065, lng:12.4536, duration:"3h", time:"8h (abertura)", desc:"Complexo de museus do Vaticano com uma das maiores coleções de arte do mundo: esculturas clássicas, tapeçarias e salas decoradas por Rafael."},
+  {name:"Capela Sistina", day:"Dia 04", lat:41.9029, lng:12.4545, duration:"incluso no Vaticano", time:"final da visita aos museus", desc:"Capela onde os papas são eleitos, famosa pelo teto pintado por Michelangelo e pelo afresco 'O Juízo Final'."},
+  {name:"Basílica de São Pedro", day:"Dia 04", lat:41.9022, lng:12.4539, duration:"1h", time:"logo após o Vaticano, ~13h", desc:"A maior igreja católica do mundo. Abriga a Pietà de Michelangelo e tem cúpula projetada por ele, com vista panorâmica de Roma para quem sobe até o topo."},
+  {name:"Castel Sant'Angelo", day:"Dia 04", lat:41.9031, lng:12.4663, duration:"1h", time:"final de tarde (pôr do sol)", desc:"Originalmente mausoléu do imperador Adriano, virou fortaleza e prisão papal ao longo dos séculos. Hoje é museu, com um dos melhores mirantes da cidade."},
+  {name:"Pantheon", day:"Dia 05", lat:41.8986, lng:12.4769, duration:"30–45min", time:"9h, antes da lotação", desc:"Templo romano de quase 2 mil anos, incrivelmente bem preservado. Tem a maior cúpula de concreto não armado do mundo, com uma abertura no topo. Hoje é igreja e túmulo do pintor Rafael."},
+  {name:"Piazza Navona", day:"Dia 05", lat:41.8992, lng:12.4731, duration:"30min", time:"qualquer hora, linda à noite", desc:"Praça barroca construída sobre um antigo estádio romano. Palco da Fonte dos Quatro Rios, de Bernini, cercada por artistas de rua e cafés."},
+  {name:"Fontana di Trevi", day:"Dia 05", lat:41.9009, lng:12.4833, duration:"20–30min", time:"antes das 9h ou após 22h (sem taxa)", desc:"A maior e mais famosa fonte barroca de Roma. Tradição diz que jogar uma moeda de costas garante o retorno à cidade."},
+  {name:"Piazza di Spagna", day:"Dia 05", lat:41.9058, lng:12.4823, duration:"30min", time:"final de tarde", desc:"Praça com a icônica escadaria de 135 degraus que liga a área comercial da Via Condotti à igreja Trinità dei Monti."},
+  {name:"Palazzo Doria Pamphilj", day:"Dia 05", lat:41.8974, lng:12.4813, duration:"1h", time:"manhã, menos fila", desc:"Palácio de uma família nobre romana, ainda habitado por seus herdeiros. A galeria de arte privada tem obras de Caravaggio, Ticiano e Velázquez."},
+  {name:"Largo di Torre Argentina", day:"Dia 05", lat:41.8955, lng:12.4767, duration:"15min", time:"de passagem", desc:"Sítio arqueológico com ruínas de quatro templos romanos, no local onde Júlio César foi assassinado. Hoje também é um santuário que cuida de gatos de rua."},
+  {name:"Altare della Patria (Vittoriano)", day:"Dia 03", lat:41.8955, lng:12.4823, duration:"45min", time:"fim de tarde, vista do pôr do sol", desc:"Monumento neoclássico enorme, construído em homenagem à unificação da Itália. Tem um mirante com elevador panorâmico e uma das melhores vistas de Roma."},
+  {name:"Mercati di Traiano", day:"Dia 03", lat:41.8958, lng:12.4855, duration:"1h", time:"manhã", desc:"Considerado o primeiro 'shopping center' do mundo antigo, construído para o imperador Trajano com mais de 150 lojas em vários níveis."},
+  {name:"Bocca della Verità", day:"Dia 08", lat:41.8888, lng:12.4813, duration:"15min", time:"de passagem, evite fila em pé", desc:"Antiga máscara de mármore em formato de rosto. A lenda diz que morde a mão de quem coloca dentro da boca e conta uma mentira — famosa pelo filme 'A Princesa e o Plebeu'."},
+  {name:"Galleria Borghese", day:"Dia 06", lat:41.9142, lng:12.4923, duration:"2h", time:"reserve o 1º horário (9h) — entrada marcada obrigatória", desc:"Um dos museus mais ricos da Itália, com esculturas de Bernini e pinturas de Caravaggio e Rafael, dentro de uma antiga villa cercada por jardins."},
+  {name:"Piazza del Popolo", day:"Dia 06", lat:41.9109, lng:12.4763, duration:"30min", time:"fim de tarde", desc:"Uma das praças mais elegantes de Roma, com um obelisco egípcio de 3 mil anos no centro e duas igrejas gêmeas na entrada."},
+  {name:"Museo Nazionale Romano (Palazzo Massimo)", day:"Dia 06", lat:41.9012, lng:12.5006, duration:"1h30", time:"manhã", desc:"Museu menos turístico, mas com uma das melhores coleções de escultura, mosaicos e afrescos romanos originais bem preservados."},
+  {name:"Basílica de Santa Maria Maggiore", day:"Dia 06", lat:41.8977, lng:12.4996, duration:"45min", time:"manhã", desc:"Uma das quatro basílicas papais de Roma (junto com São Pedro). Interior deslumbrante com mosaicos originais do século V."},
+  {name:"Trastevere (Santa Maria)", day:"Dia 08", lat:41.8898, lng:12.4694, duration:"2h+ (passeio)", time:"final de tarde / noite", desc:"Bairro boêmio de ruas de paralelepípedo, ótimo para passear e jantar. A Basílica de Santa Maria in Trastevere é uma das igrejas mais antigas dedicadas à Virgem Maria."},
+  {name:"Campo de' Fiori", day:"Dia 08", lat:41.8955, lng:12.4723, duration:"30min", time:"manhã (mercado) ou noite (bares)", desc:"Praça com mercado de frutas, flores e produtos frescos pela manhã; à noite vira point de bares e vida noturna."},
+  {name:"Circo Massimo", day:"Dia 08", lat:41.8859, lng:12.4855, duration:"20min", time:"de passagem", desc:"Antigo hipódromo romano onde aconteciam corridas de bigas para até 150 mil pessoas. Hoje é um grande gramado aberto, bom para uma pausa."},
+  {name:"Santa Croce in Gerusalemme", day:"Dia 08", lat:41.8869, lng:12.5164, duration:"30min", time:"manhã", desc:"Basílica que guarda relíquias ligadas à Paixão de Cristo, trazidas de Jerusalém por Santa Helena, mãe do imperador Constantino, segundo a tradição."},
 ];
 
 const map = L.map('map', {zoomControl:true}).setView([41.8990, 12.4790], 14);
@@ -486,7 +487,7 @@ const hotelIcon = L.divIcon({
 const poiMarkers = {};
 POIS.forEach((p, i) => {
   const m = L.marker([p.lat, p.lng], {icon: makePoiIcon(p.name)}).addTo(map);
-  m.bindPopup(`<b>${i+1}. ${p.name}</b><br><span style="color:#556B4E">${p.day}</span><br><span style="color:#6B5F52;font-size:12px;">⏱ ${p.duration} · melhor: ${p.time}</span>`);
+  m.bindPopup(`<b>${i+1}. ${p.name}</b><br><span style="color:#556B4E">${p.day}</span><br><span style="color:#6B5F52;font-size:12px;">⏱ ${p.duration} · melhor: ${p.time}</span><p style="margin:6px 0 0;font-size:12.5px;line-height:1.5;color:#2B2420;">${p.desc}</p>`, {maxWidth: 250});
   poiMarkers[i] = m;
 });
 
